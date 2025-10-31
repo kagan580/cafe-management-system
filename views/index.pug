@@ -1,0 +1,180 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title complete responsive coffee shop website design
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css')
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+  body
+    header.header
+      section.flex
+        a.logo(href='#')
+          img(src='/images/mkdlogo.png', alt='')
+        nav.navbar
+          a(href='#home') home
+          a(href='#about') about
+          a(href='#menu') menu
+          a(href='#contact') contact
+          a(href='#blogs') blogs
+        .icons
+          #search-btn.fas.fa-search
+          #cart-btn-container
+            #cart-btn.fas.fa-shopping-cart
+            span#cart-badge 0
+          #menu-btn.fas.fa-bars
+        .search-form
+          input#search-box(type='search', placeholder='search here...')
+          label.fas.fa-search(for='search-box')
+          div#search-results
+        #shop_card.cart-items-container
+          .cart-item
+            label(for='masa', class='masa-label') Masa Numarası Seçin:
+            select(id='masa', name='masa', class='masa-select', required)
+              option(value='') -- Seçiniz --
+              each masa in tables
+                option(value=masa.id) Masa #{masa.table_number}
+            a.btn(href='#', id='checkoutBtn') checkout now
+
+    div#paymentModal.modal
+      div.modal-content
+        span.close &times;
+        h2 Payment Details
+        form#paymentForm
+          label(for='fullname') Full Name
+          input(type='text', id='fullname', name='fullname', required)
+          label(for='email') Email
+          input(type='email', id='email', name='email', required)
+          label(for='cardNumber') Card Number
+          input(type='text', id='cardNumber', name='cardNumber', placeholder='1234 5678 9012 3456', required)
+          //- label(for='masa') Masa Numarası Seçin:
+          //- select(id='masa', name='masa')
+          //-   option(value='') -- Seçiniz --
+          //-   each masa in tables
+          //-     option(value=masa.id) Masa #{masa.table_number}
+          .card-details
+            div
+              label(for='expiryDate') Expiry Date
+              input(type='text', id='expiryDate', name='expiryDate', pattern='^(0[1-9]|1[0-2])\/[0-9]{2}$', placeholder='MM/YY', required)
+            div
+              label(for='cvv') CVV
+              input(type='text', id='cvv', name='cvv', placeholder='123', required)
+          button.pay-btn(type='submit') Pay Now
+    div#otpModal.modal
+      div.modal-content
+        span.close(onclick="document.getElementById('otpModal').style.display='none'") &times;
+        h2 Doğrulama Kodu
+        form#otpForm
+          label(for='otp') Mail adresinize gönderilen 6 haneli kodu girin:
+          input(type='text', id='otp', name='otp', required, maxlength='6', placeholder='123456')
+          button(type='submit', class='btn') Doğrula
+          button(type='button', class='btn', onclick='resendOtp()', style='margin-left: 10px;') Kodu Tekrar Gönder
+    .home-container
+      section#home.home
+        .content
+          h3 fresh coffee in the morning
+          p Güne enerjik başlamak senin elinde. Sabahlarının kahvesiz kalmasına izin verme.
+          a.btn(href='#') get yours now
+
+    section#about.about
+      h1.heading
+        span about
+        |  us
+      .row
+        .image
+          img(src='/images/about-img.jpeg', alt='')
+        .content
+          h3 what makes our coffee special?
+          p Özel seçilmiş çekirdekler, ustalıkla kavrulmuş aroma dengesi ve üçüncü nesil demleme yöntemleri...
+          p  Kaliteyi her aşamada ön planda tutuyoruz. Çünkü kahvede fark, detaylarda gizlidir.
+          a.btn(href='#') learn more
+
+    section#menu.menu
+      h1.heading
+        | our 
+        span menu
+
+      .category-buttons
+        button.category-btn(data-id="all", class="active") 🍽 Tümü
+        each cat in categories
+          button.category-btn(data-id=cat.id)= cat.name
+
+      .product-grid-wrapper
+        .product-grid#productGrid
+
+      .pagination-controls
+        button#prevPage &larr;
+        button#nextPage &rarr;
+
+    //- section#review.review
+    //-   h1.heading
+    //-     | customer's 
+    //-     span review
+    //-   .box-container
+    //-     each i in [1,2,3]
+    //-       .box
+    //-         img.quote(src='/images/quote-img.png', alt='')
+    //-         p Kahvesi sadece lezzetli değil, aynı zamanda günümü güzelleştiriyor. Sipariş süreci çok kolay!...
+    //-         img.user(src=`/images/pic-${i}.png`, alt='')
+    //-         h3 john deo
+    //-         .stars
+    //-           i.fas.fa-star
+    //-           i.fas.fa-star
+    //-           i.fas.fa-star
+    //-           i.fas.fa-star
+    //-           i.fas.fa-star-half-alt
+
+    section#contact.contact
+      h1.heading
+        span contact
+        |  us
+      .row
+        iframe.map(src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2925.0033002483806!2d37.02893758213945!3d39.705825028536445!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4079537c43d8678b%3A0xa3e927d2c1aae4af!2sSivas%20Cumhuriyet%20%C3%9Cniversitesi%20M%C3%BChendislik%20Fak%C3%BCltesi!5e0!3m2!1str!2sus!4v1747682619998!5m2!1str!2sus', allowfullscreen='', loading='lazy')
+        form(action='')
+          h3 get in touch
+          .inputBox
+            span.fas.fa-user
+            input(type='text', placeholder='name')
+          .inputBox
+            span.fas.fa-envelope
+            input(type='email', placeholder='email')
+          .inputBox
+            span.fas.fa-phone
+            input(type='number', placeholder='number')
+          input.btn(type='submit', value='contact now')
+
+    section#blogs.blogs
+      h1.heading
+        | our 
+        span blogs
+      .box-container
+        each i in [1,2,3]
+          .box
+            .image
+              img(src=`/images/blog-${i}.jpeg`, alt='')
+            .content
+              a.title(href='#') tasty and refreshing coffee
+              span by admin / 21st may, 2025
+              p Kahvenin sadece lezzeti değil, sunumu da bir sanat. Köpükteki desenler kadar ilk yudumun keyfi de büyüleyici..
+              a.btn(href='#') read more
+
+    section.footer
+      .share
+        a.fab.fa-facebook-f(href='#')
+        a.fab.fa-twitter(href='#')
+        a.fab.fa-instagram(href='#')
+        a.fab.fa-linkedin(href='#')
+        a.fab.fa-pinterest(href='#')
+      .links
+        a(href='#') home
+        a(href='#') about
+        a(href='#') menu
+        a(href='#') contact
+        a(href='#') blogs
+      .credit
+        | created by 
+        span Murat Kağan Dumlupınar
+        |  | all rights reserved
+
+    script(src='js/index-pug.js')

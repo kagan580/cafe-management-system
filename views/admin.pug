@@ -1,0 +1,223 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Admin Panel
+    link(rel="stylesheet", href="/css/admin.css")
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
+
+  body
+    .container
+      aside
+        .top
+          .logo
+            img(src="/images/mkdlogo.png", alt="Kagan Logo", style="height: 40px; margin-right: 10px;")
+            h2
+              span.danger kagan
+          #close_btn.close
+            span.material-icons close
+
+        .sidebar
+          a(href="#", data-frame="siparis", class="active")
+            span.material-icons grid_view
+            h3 Siparişler
+          a(href="#", data-frame="analiz")
+            span.material-icons insights
+            h3 Analiz
+          a(href="#", data-frame="urunler")
+            span.material-icons receipt_long
+            h3 Ürünler
+          a(href="#", data-frame="urun-ekle")
+            span.material-icons add_box
+            h3 Yeni Ürün Ekle
+          a(href="/logout" class="logout-link")
+            span.material-icons logout
+            h3 Çıkış
+
+
+
+      main
+        .siparis-frame.frame
+          header
+            h1 Siparişler
+          .siparis-listesi
+            //- each siparis in orders
+            //-   if siparis.status === 'preparing'
+            //-     .siparis-card(data-id=siparis.id)
+            //-       h4 Sipariş #ID #{siparis.id}
+            //-       p Masa No: #{siparis.table_id}
+            //-       p Toplam Tutar: #{siparis.total_amount} ₺
+            //-       p Tarih: #{siparis.order_time.toISOString().slice(0, 16).replace('T', ' ')}
+            //-       p Durum: #{siparis.status}
+
+        .analiz-frame.frame(style="display:none")
+          header
+            h1 Satış Analizleri
+          .analiz-controls
+            label(for="analizTarihSec") Tarih Seç:
+            input#analizTarihSec(type="date")
+          .analiz-icerik
+            .chart-wrapper-group
+              .chart-wrapper
+                h3 Günlük Sipariş Sayısı
+                canvas#chartGunluk(width="400", height="200")
+              .chart-wrapper
+                h3 Aylık Sipariş Sayısı
+                canvas#chartAylik(width="400", height="200")
+            .table-wrapper
+              h3 Seçilen Güne Ait Siparişler
+              table
+                thead
+                  tr
+                    th Ürün Adı
+                    th Miktar
+                    th Toplam Fiyat
+                tbody#analizTablo
+
+        .urunler-frame.frame(style="display:none")
+          header
+            h1 Ürünler Listesi
+            label(for="kategoriFiltre") Kategori Seç:
+            select#kategoriFiltre
+              option(value="all") Tüm Ürünler
+              each cat in categories
+                option(value=cat.id)= cat.name
+          .product-list
+            each urun in products
+              .product-wrapper
+                .product-card
+                  if urun.image
+                    img(src=urun.image, alt=urun.name, style="width:100%;border-radius:10px")
+                  else
+                    .no-img (Görsel Yok)
+                  h3= urun.name
+                  p Açıklama: #{urun.description || 'Tanımlanmamış'}
+                  p Fiyat: #{urun.price} ₺
+                  p Kategori: #{urun.category_id || 'Bilinmiyor'}
+                  p Stok: #{urun.stock || 'Bilinmiyor'} #{urun.unit || ''}
+                  p Durum: #{urun.is_available ? 'Aktif' : 'Pasif'}
+                  .actions
+                    button.edit(data-id=urun.id) Düzenle
+                    button.delete(data-id=urun.id) Sil
+                .edit-popup-panel(data-id=urun.id)
+                  button.close-panel(type="button")
+                    span.material-icons close
+                  form(method="POST", action="/urun-guncelle/" + urun.id)
+                    label(for="name") Ürün Adı
+                    input#name(type="text", name="name", value=urun.name)
+                    label(for="desc") Açıklama
+                    input#desc(type="text", name="desc", value=urun.description)
+                    label(for="price") Fiyat
+                    input#price(type="number", name="price", step="0.01", value=urun.price)
+                    label(for="category") Kategori
+                    select#category(name="category")
+                      each cat in categories
+                        option(value=cat.id selected=(cat.id === urun.category_id)) #{cat.name}
+                    label(for="stock") Stok Adedi
+                    input#stock(type="number", name="stock", value=urun.stock)
+                    label(for="unit") Ölçü Birimi
+                    input#unit(type="text", name="unit", value=urun.unit)
+                    label(for="status") Ürün Durumu
+                    select#status(name="status")
+                      option(value="aktif", selected=urun.is_available) Aktif
+                      option(value="pasif", selected=!urun.is_available) Pasif
+                    button(type="submit") Kaydet
+
+        .urun-ekle-frame.frame(style="display:none")
+          header
+            h1 Yeni Ürün Ekle
+          form.urun-ekle-form(method="POST", action="/urun-ekle")
+            label(for="name") Ürün Adı:
+            input#name(type="text", name="name", required)
+            label(for="description") Açıklama:
+            textarea#description(name="description")
+            label(for="price") Fiyat:
+            input#price(type="number", name="price", step="0.01", required)
+            label(for="category") Kategori:
+            select#category(name="category_id", required)
+              option(value="") -- Seçiniz --
+              each cat in categories
+                option(value=cat.id) #{cat.name}
+            label(for="stock") Stok Miktarı:
+            input#stock(type="number", name="stock", required)
+            label(for="unit") Ölçü Birimi:
+            input#unit(type="text", name="unit", required)
+            label(for="product_img_input") Ürün Görseli:
+            .file-upload-wrapper
+              label.file-upload-label(for="product_img_input")
+                span.material-icons upload_file
+                | Görsel Seç
+              input#product_img_input(type="file", accept="image/*", style="display:none")
+              span#fileNamePreview Dosya seçilmedi
+            input#product_img(type="hidden", name="product_img")
+            .img-preview
+              img#imagePreview(src="", alt="Görsel Önizleme", style="display:none")    
+            label(for="is_available") Durum:
+            select#is_available(name="is_available")
+              option(value="1") Aktif
+              option(value="0") Pasif
+            button(type="submit") Ürünü Kaydet
+
+          hr
+          h2 Yeni Kategori Ekle
+          form.kategori-ekle-form(method="POST", action="/kategori-ekle")
+            label(for="cat_name") Kategori Adı:
+            input#cat_name(type="text", name="name", required)
+            label(for="cat_desc") Açıklama:
+            input#cat_desc(type="text", name="description")
+            button(type="submit") Kategori Ekle
+          h2 Kategori Sil
+          form.kategori-sil-form(method="POST", action="/kategori-sil")
+            label(for="kategori_sil_id") Silinecek Kategori:
+            select#kategori_sil_id(name="id", required)
+              option(value="") -- Seçiniz --
+              each cat in categories
+                option(value=cat.id)= cat.name
+            button(type="submit") Sil
+
+        .siparis-detay-popup#siparisDetayPopup
+          button.close-panel(type="button")
+            span.material-icons close
+          h3 Sipariş Detayları
+          .siparis-info
+            p
+              strong Masa No: 
+              span#popupMasaNo  --
+            p 
+              strong Toplam Tutar:
+              span#popupToplamTutar -- ₺ 
+          table
+            thead
+              tr
+                th Ürün Adı
+                th Miktar
+                th Fiyat
+            tbody#popupSiparisDetaylari
+          form(id="durumGuncelleForm")
+            input(type="hidden", name="siparis_id")
+            label(for="status") Yeni Durum:
+            select(name="status")
+              option(value="preparing") Preparing
+              option(value="served") Served
+              option(value="cancelled") Cancelled
+            button(type="submit") Durumu Güncelle
+
+      .right
+        .top
+          button#menu_bar
+            span.material-icons menu
+          .theme-toggler
+            span.material-icons.active light_mode
+            span.material-icons dark_mode
+          .profile
+            .info
+              p
+                b kagan
+              p admin
+              small.text-muted
+            .profile-photo
+              img(src='/images/mkdlogo.png', alt="")
+
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+    script(src="/js/admin.js")

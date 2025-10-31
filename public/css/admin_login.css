@@ -1,0 +1,116 @@
+/* Temel reset ve font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #121212;
+  color: #e0e0e0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+.login-box {
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  animation: fadeIn 0.7s ease;
+}
+
+/* Logo stil */
+.logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+  /* filter: brightness(0) invert(1); Beyaz logo için */
+}
+
+/* Başlık */
+.login-box h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Alt başlık */
+.login-box h2 {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+/* Form stilleri */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 12px 15px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #2b2b2b;
+  color: #eee;
+  transition: 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #3a3a3a;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Hata mesajı */
+.error-message {
+  background-color: #471010;
+  color: #ff7373;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Animasyon */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

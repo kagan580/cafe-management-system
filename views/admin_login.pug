@@ -1,0 +1,18 @@
+doctype html
+html(lang="tr")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Admin Giriş
+    link(rel="stylesheet", href="/css/admin_login.css")
+  body
+    .login-wrapper
+      .login-box
+        img.logo(src="/images/mkdlogo.png", alt="Cafe Logo")
+        h1 Admin Paneli Girişi
+        if error
+          p.error-message= error
+        form(method="POST", action="/admin_login")
+          input(type="text", name="username", placeholder="Kullanıcı Adı", required=true)
+          input(type="password", name="password", placeholder="Şifre", required=true)
+          button(type="submit") Giriş Yap
