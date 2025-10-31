@@ -3,6 +3,20 @@
 A **web-based cafe management system** built using Node.js, Express.js, and MySQL.  
 This project provides a **contactless ordering experience** for customers and an **admin panel** for cafe managers to handle products, orders, and sales analytics.
 
+
+## 📸 Screenshots
+
+### 🏠 Customer Home Page
+![Customer Home](./screenshots/home.png)
+
+### ☕ Product Menu
+![Product Menu](./screenshots/menu.png)
+
+### 🧾 Admin – Orders Panel
+![Admin Orders](./screenshots/admin-orders.png)
+
+### 🛠 Admin – Product Management
+![Admin Products](./screenshots/admin-products.png)
 ---
 
 ## 🚀 Features
@@ -46,6 +60,7 @@ Includes:
 
 ---
 
+
 ## 🧭 How to Run
 
 ```bash
@@ -54,19 +69,7 @@ cp .env.example .env   # Fill in your DB credentials
 npm start
 
 
-## 📸 Screenshots
 
-### 🏠 Customer Home Page
-![Customer Home](./screenshots/home.png)
-
-### ☕ Product Menu
-![Product Menu](./screenshots/menu.png)
-
-### 🧾 Admin – Orders Panel
-![Admin Orders](./screenshots/admin-orders.png)
-
-### 🛠 Admin – Product Management
-![Admin Products](./screenshots/admin-products.png)
 
 ---
 
@@ -82,3 +85,5 @@ After logging in, you can:
 - Manage products and categories  
 - View and update customer orders  
 - Analyze sales data on the dashboard
+
+
