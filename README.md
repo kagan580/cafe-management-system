@@ -47,10 +47,12 @@ Includes:
 ---
 
 ## 🧭 How to Run
+
 ```bash
 npm install
 cp .env.example .env   # Fill in your DB credentials
 npm start
+
 
 ## 📸 Screenshots
 
