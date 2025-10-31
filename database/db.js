@@ -1,25 +1,21 @@
 const mysql = require("mysql2");
 require("dotenv").config();
 
-const pool = mysql.createPool({
+// Bağlantıyı oluştur
+const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
 });
 
-module.exports = pool.promise();
-
-// Bağlantıyı aç
+// Bağlantıyı test et
 db.connect((err) => {
-    if (err) {
-        console.error("Veritabanına bağlanırken hata oluştu:", err);
-        return;
-    }
-    console.log("Veritabanına başarıyla bağlandı.");
+  if (err) {
+    console.error("❌ Database connection failed:", err);
+    return;
+  }
+  console.log("✅ Database connected successfully!");
 });
 
-module.exports = db; // Bağlantıyı dışa aktar
+module.exports = db;
