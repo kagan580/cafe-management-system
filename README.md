@@ -19,6 +19,7 @@ This project provides a **contactless ordering experience** for customers and an
 - Visual **sales analytics** with daily and monthly reports (Chart.js)
 - Responsive dark/light theme UI
 
+
 ---
 
 ## 🧠 Technologies Used
@@ -50,3 +51,32 @@ Includes:
 npm install
 cp .env.example .env   # Fill in your DB credentials
 npm start
+
+## 📸 Screenshots
+
+### 🏠 Customer Home Page
+![Customer Home](./screenshots/home.png)
+
+### ☕ Product Menu
+![Product Menu](./screenshots/menu.png)
+
+### 🧾 Admin – Orders Panel
+![Admin Orders](./screenshots/admin-orders.png)
+
+### 🛠 Admin – Product Management
+![Admin Products](./screenshots/admin-products.png)
+
+---
+
+## 🔑 Admin Panel Access
+
+To access the admin panel, navigate to:
+
+**URL:** `http://localhost:8080/admin`  
+**Username:** `admin`  
+**Password:** `1234`
+
+After logging in, you can:
+- Manage products and categories  
+- View and update customer orders  
+- Analyze sales data on the dashboard
